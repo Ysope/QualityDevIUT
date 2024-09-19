@@ -13,5 +13,78 @@ Console.WriteLine("\n");
 unCD.AfficherInfos();
 Console.WriteLine("\n");
 
+// Partie 2 :  Surcharge des opérateurs
+
+//Test de la surcharge de l'opérateur + pour les médias
+//Les livres
+Console.WriteLine("Test de la surcharge de l'opérateur + pour les médias");
+Console.WriteLine("Les livres");
+Livre unLivre2 = new Livre("ça",4,9,"Stephen King","Thriller");
+unLivre = unLivre + unLivre2;
+unLivre.AfficherInfos();
+
+Console.WriteLine("\n");
+
+//Les CDs
+Console.WriteLine("Les CDs");
+CD unCD2 = new CD("Civilisation",5,2,"Orelsan","Warner");
+unCD = unCD + unCD2;
+unCD.AfficherInfos();
+
+Console.WriteLine("\n");
+
+//Les DVDs
+Console.WriteLine("Les DVDs");
+DVD unDVD2 = new DVD("Narnia",2,5,2.20,"Andrew Adamson");
+unDVD = unDVD + unDVD2;
+unDVD.AfficherInfos();
+
+Console.WriteLine("\n");
+
+//Test de la surcharge de l'opérateur - pour les médias
+//Les livres
+Console.WriteLine("Test de la surcharge de l'opérateur - pour les médias");
+Console.WriteLine("Les livres");
+unLivre = unLivre - unLivre2;
+unLivre.AfficherInfos();
+
+Console.WriteLine("\n");
+
+//Les CDs
+Console.WriteLine("Les CDs");
+unCD = unCD - unCD2;
+unCD.AfficherInfos();
+    
+Console.WriteLine("\n");
+
+//Les DVDs
+Console.WriteLine("Les DVDs");
+unDVD = unDVD - unDVD2;
+unDVD.AfficherInfos();
+
+Console.WriteLine("\n");
+
 // Partie 3 : Collections et Indexeurs
+
+Library maBibliotheque = new Library();
+
+//Ajout de médias
+maBibliotheque.AjouterMedia(unLivre);
+maBibliotheque.AjouterMedia(unDVD);
+
+maBibliotheque.AfficherTousLesMedias();
+
+//Test de l'indexeur
+Console.WriteLine("Test de l'indexeur");
+
+//Emprunter un média
+maBibliotheque.EmprunterMedia(4);
+
+//Retirer un média
+maBibliotheque.RetirerMedia(4);
+
+maBibliotheque.AfficherTousLesMedias();
+
+
+
 
