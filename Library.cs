@@ -9,6 +9,7 @@ namespace Gestion_Biblio_Media
     internal class Library
     {
         private List<Media> v_listMedia = new List<Media>();
+        private List<Emprunt> v_listEmprunts = new List<Emprunt>();
 
         /// <summary>
         /// Fonction pour accéder à un média par son numéro de référence
@@ -50,7 +51,7 @@ namespace Gestion_Biblio_Media
 
 
         /// <summary>
-        /// Fonxtion pour ajouter un média à la bibliothèque
+        /// Fonction pour ajouter un média à la bibliothèque
         /// </summary>
         /// <param name="media">media a ajouter</param>
         public void AjouterMedia(Media media)
@@ -91,24 +92,89 @@ namespace Gestion_Biblio_Media
             }
         }
 
-        /// <summary>
-        /// Affiche tous les médias de la bibliothèque
-        /// </summary>
-        public void AfficherTousLesMedias()
+        //Méthode pour emprunter un média par un utilisateur en fonction du numéro de référence du média
+        //et du nom de l'emprunteur
+        public void EmprunterMedia(int numRef, string nomEmprunteur)
         {
-            if (v_listMedia.Count == 0)
+            Media mediaAEmprunter = this[numRef];
+            if (mediaAEmprunter != null)
             {
-                Console.WriteLine("Aucun média disponible.");
+                if (mediaAEmprunter.NbExemDispo > 0)
+                {
+                    mediaAEmprunter.NbExemDispo--;
+                    Emprunt emprunt = new Emprunt(mediaAEmprunter, nomEmprunteur);
+                    v_listEmprunts.Add(emprunt);
+                    Console.WriteLine("Média emprunté avec succès : " + mediaAEmprunter.Titre);
+                }
+                else
+                {
+                    Console.WriteLine("Aucun exemplaire disponible pour le média : " + mediaAEmprunter.Titre);
+                }
             }
             else
             {
-                Console.WriteLine("Liste des médias dans la bibliothèque :");
-                foreach (var media in v_listMedia)
+                Console.WriteLine("Média non trouvé avec le numéro de référence : " + numRef);
+            }
+        }
+        
+        //Méthode pour retourner un média en fonction du numéro de référence du media et du nom de l'emprunteur
+        public void RetournerMedia(int numRef, string nomEmprunteur)
+        {
+            Emprunt empruntARetourner = null;
+            foreach (var emprunt in v_listEmprunts)
+            {
+                if (emprunt.v_media.NumRef == numRef && emprunt.v_nomEmprunteur == nomEmprunteur)
                 {
-                    media.AfficherInfos();
-                    Console.WriteLine("-------------------------");
+                    empruntARetourner = emprunt;
+                    v_listEmprunts.Remove(emprunt);
+                    break;
                 }
             }
+            if (empruntARetourner != null)
+            {
+                empruntARetourner.v_media.NbExemDispo++;
+                Console.WriteLine("Média retourné avec succès : " + empruntARetourner.v_media.Titre);
+            }
+            else
+            {
+                Console.WriteLine("Média non trouvé avec le numéro de référence : " + numRef + " et l'emprunteur : " + nomEmprunteur);
+            }
+        }
+        
+        //Méthode pour afficher les médias empruntés par un utilisateur en fonction de son nom
+        public void MediaEmprunteUtilisateur(string nomEmprunteur)
+        {
+            int nbEmprunts = 0;
+            foreach (var emprunt in v_listEmprunts)
+            {
+                if (emprunt.v_nomEmprunteur == nomEmprunteur)
+                {
+                    nbEmprunts++;
+                    emprunt.v_media.AfficherInfos();
+                }
+            }
+            if (nbEmprunts == 0)
+            {
+                Console.WriteLine("Aucun média emprunté par : " + nomEmprunteur);
+            }
+
+        }
+        
+        //Méthode pour afficher les statistiques de la bibliothèque
+        public void AfficherStatistiques()
+        {
+            int nbTotalMedias = v_listMedia.Count;
+            int nbExemplairesDisponibles = 0;
+            int nbTotalExemplairesEmpruntes = v_listEmprunts.Count;
+            foreach (var media in v_listMedia)
+            {
+                nbExemplairesDisponibles += media.NbExemDispo;
+            }
+ 
+            Console.WriteLine("Nombre total de médias : " + nbTotalMedias);
+            Console.WriteLine("Nombre d'exemplaires disponibles : " + nbExemplairesDisponibles);
+            Console.WriteLine("Nombre total d'exemplaires empruntés : " + nbTotalExemplairesEmpruntes);
+
         }
     }
 }
