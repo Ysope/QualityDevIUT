@@ -206,14 +206,23 @@ namespace Gestion_Biblio_Media
             return bibliotheque;
         }
         
-        public void RechercherMediaTitre(string p_recherche)
-        {
+        public void RechercherMediaTitreOuCreateur(string p_recherche)
+        {   
+            Boolean v_trouve = false;
             foreach (Media v_media in listMedia)
             {
-                if (v_media.Titre.Contains(p_recherche))
+                if (v_media.Titre.Contains(p_recherche) ||
+                    (v_media is Livre livre && livre.Auteur.Contains(p_recherche)) ||
+                    (v_media is CD cd && cd.Artiste.Contains(p_recherche)) ||
+                    (v_media is DVD dvd && dvd.Realisateur.Contains(p_recherche)))
                 {
                     v_media.AfficherInfos();
+                    v_trouve = true;
                 }
+            }
+            if (!v_trouve)
+            {
+                Console.WriteLine("Aucun média trouvé pour la recherche : " + p_recherche);
             }
         }
         

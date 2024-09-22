@@ -60,7 +60,8 @@ catch (Exception e)
 Console.WriteLine("--------------------");
 
 //Rechercher un média
-m_maBibliotheque.RechercherMediaTitre("Civilisation");
+m_maBibliotheque.RechercherMediaTitreOuCreateur("Civilisation");
+m_maBibliotheque.RechercherMediaTitreOuCreateur("Andrew Adamson");
 Console.WriteLine("--------------------");
 
 //Lister les médias empruntés par un utilisateur
