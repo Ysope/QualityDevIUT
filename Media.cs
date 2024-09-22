@@ -3,96 +3,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Gestion_Biblio_Media
 {
     internal class Media
     {
-        string v_titre;
-        int v_numRef;
-        int v_nbExemDispo;
-
-        public void AfficherInfos (){
-
-            Console.WriteLine(v_titre);
-            Console.WriteLine(v_numRef);
-            Console.WriteLine(v_nbExemDispo);
-
-        }
-
-        public Media(string titre, int numRef, int nbExemDispo)
-        {
-            v_titre = titre;
-            v_numRef = numRef;
-            v_nbExemDispo = nbExemDispo;
-        }
-
+        private string titre;
+        private int numeroReference;
+        private int nombreExemplairesDisponibles;
+        
         /// <summary>
-        /// Surchage de l'opérateur + pour additionner deux médias
+        /// Méthode pour afficher les informations du média
         /// </summary>
-        /// <param name="media1">media de base</param>
-        /// <param name="media2">media a ajouter</param>
-        /// <returns>media de base modifié</returns>
-        /// <exception cref="InvalidOperationException">Les titres ne sont pas identiques</exception>
-        public static Media operator +(Media media1, Media media2)
-        {
-            if (media1.v_titre == media2.v_titre)
-            {
-                return new Media(media1.v_titre, media1.v_numRef, media1.v_nbExemDispo + media2.v_nbExemDispo);
-            }
-            else
-            {
-                throw new InvalidOperationException("Les titres des médias doivent être identiques pour les ajouter.");
-            }
-        }
+        public virtual void AfficherInfos (){
+            Console.WriteLine(titre);
+            Console.WriteLine(numeroReference);
+            Console.WriteLine(nombreExemplairesDisponibles);
 
-        /// <summary>
-        /// Surchage de l'opérateur - pour soustraire deux médias
-        /// </summary>
-        /// <param name="media1">media de base</param>
-        /// <param name="media2">media a soustraire</param>
-        /// <returns>media de base modifié</returns>
-        /// <exception cref="InvalidOperationException">Les titres ne sont pas identiques et le nombre d'exemplaire incorrect</exception>
-        public static Media operator -(Media media1, Media media2)
-        {
-            if (media1.v_titre == media2.v_titre)
-            {
-                if(media1.v_nbExemDispo < media2.v_nbExemDispo)
-                {
-                    throw new InvalidOperationException("Le nombre d'exemplaires du premier média doit être supérieur ou égal au nombre d'exemplaires du second média pour les soustraire.");
-                }
-
-                return new Media(media1.v_titre, media1.v_numRef, media1.v_nbExemDispo - media2.v_nbExemDispo);
-            }
-            else
-            {
-                throw new InvalidOperationException("Les titres des médias doivent être identiques pour les ajouter.");
-            }
-        }
-
-        /// <summary>
-        /// Fonction pour obtenir le titre du média
-        /// </summary>
-        public string Titre
-        {
-            get { return v_titre; }
         }
         
         /// <summary>
-        /// Fonction pour obtenir le numéro de référence du média
+        /// Constructeur de la classe Média, nommage différent pour désérialisation
         /// </summary>
-        public int NumRef
+        /// <param name="titre">Titre du media</param>
+        /// <param name="numeroReference">Numéro de référence du média</param>
+        /// <param name="nombreExemplairesDisponibles">Nombre d'exemplaires disponibles</param>
+        [JsonConstructor]
+        public Media(string titre, int numeroReference, int nombreExemplairesDisponibles)
         {
-            get { return v_numRef; }
+            this.titre = titre;
+            this.numeroReference = numeroReference;
+            this.nombreExemplairesDisponibles = nombreExemplairesDisponibles;
+        }
+        
+
+        /// <summary>
+        /// Méthode pour obtenir le titre du média
+        /// </summary>
+        public string Titre
+        {
+            get { return titre; }
+        }
+        
+        /// <summary>
+        /// Méthode pour obtenir le numéro de référence du média
+        /// </summary>
+        public int NumeroReference
+        {
+            get { return numeroReference; }
         }
 
         /// <summary>
-        /// Fonction pour obtenir et modifier le nombre d'exemplaires disponibles du média
+        /// Méthode pour obtenir et modifier le nombre d'exemplaires disponibles du média
         /// </summary>
-        public int NbExemDispo
+        public int NombreExemplairesDisponibles
         {
-            get { return v_nbExemDispo; }
-            set { v_nbExemDispo = value; }
+            get { return nombreExemplairesDisponibles; }
+            set { nombreExemplairesDisponibles = value; }
         }
     }
 }

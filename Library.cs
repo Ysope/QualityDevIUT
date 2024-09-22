@@ -10,23 +10,23 @@ namespace Gestion_Biblio_Media
 {
     internal class Library
     {
-        private List<Media> v_listMedia = new List<Media>();
-        private List<Emprunt> v_listEmprunts = new List<Emprunt>();
+        private List<Media> listMedia = new List<Media>();
+        private List<Emprunt> listEmprunts = new List<Emprunt>();
 
         /// <summary>
-        /// Fonction pour accéder à un média par son numéro de référence
+        /// Méthode pour accéder à un média par son numéro de référence
         /// </summary>
-        /// <param name="numRef">numero de référence</param>
+        /// <param name="p_numeroReference">Numero de référence</param>
         /// <returns>le media</returns>
-        public Media this[int numRef]
+        public Media this[int p_numeroReference]
         {
             get
             {
-                foreach (var media in v_listMedia)
+                foreach (Media v_media in listMedia)
                 {
-                    if (media.NumRef == numRef)
+                    if (v_media.NumeroReference == p_numeroReference)
                     {
-                        return media;
+                        return v_media;
                     }
                 }
                 return null;
@@ -34,180 +34,232 @@ namespace Gestion_Biblio_Media
         }
 
         /// <summary>
-        /// Fonction pour retirer un média de la bibliothèque
+        /// Méthode pour retirer un média de la bibliothèque
         /// </summary>
-        /// <param name="numRef">Numero de référence</param>
-        public void RetirerMedia(int numRef)
+        /// <param name="p_numeroReference">Numero de référence</param>
+        public void RetirerMedia(int p_numeroReference)
         {
-            Media mediaARetirer = this[numRef];
-            if (mediaARetirer != null)
+            Media v_mediaARetirer = this[p_numeroReference];
+            if (v_mediaARetirer != null)
             {
-                v_listMedia.Remove(mediaARetirer);
-                Console.WriteLine("Média retiré avec succès : " + mediaARetirer.Titre);
+                listMedia.Remove(v_mediaARetirer);
+                Console.WriteLine("Média retiré avec succès : " + 
+                                  v_mediaARetirer.Titre);
             }
             else
             {
-                Console.WriteLine("Média non trouvé avec le numéro de référence : " + numRef);
+                Console.WriteLine("Média non trouvé avec " +
+                                  "le numéro de référence : " + p_numeroReference);
             }
         }
 
 
         /// <summary>
-        /// Fonction pour ajouter un média à la bibliothèque
+        /// Méthode pour ajouter un média à la bibliothèque
         /// </summary>
-        /// <param name="media">media a ajouter</param>
-        public void AjouterMedia(Media media)
+        /// <param name="p_media">Media a ajouter</param>
+        public void AjouterMedia(Media p_media)
         {
-            if (media != null)
-            {
-                v_listMedia.Add(media);
-                Console.WriteLine("Média ajouté avec succès : " + media.Titre);
-            }
-            else
-            {
-                Console.WriteLine("Impossible d'ajouter un média null.");
-            }
+            listMedia.Add(p_media);
+            Console.WriteLine("Média ajouté avec succès : " 
+                              + p_media.Titre);
         }
+        
 
         /// <summary>
-        /// Fonction pour emprunter un média
+        /// Méthode pour emprunter un média en fonction du numéro de référence du média et du nom de l'emprunteur
         /// </summary>
-        /// <param name="numRef">Numéro de référence</param>
-        public void EmprunterMedia(int numRef)
+        /// <param name="p_numeroReference">Numéro de référence du média</param>
+        /// <param name="p_nomEmprunteur">Nom de l'emprunteur</param>
+        public void EmprunterMedia(int p_numeroReference, string p_nomEmprunteur)
         {
-            Media mediaAEmprunter = this[numRef];
-            if (mediaAEmprunter != null)
+            Media v_mediaAEmprunter = this[p_numeroReference];
+            if (v_mediaAEmprunter != null)
             {
-                if (mediaAEmprunter.NbExemDispo > 0)
+                if (v_mediaAEmprunter.NombreExemplairesDisponibles > 0)
                 {
-                    mediaAEmprunter.NbExemDispo--;
-                    Console.WriteLine("Média emprunté avec succès : " + mediaAEmprunter.Titre);
+                    v_mediaAEmprunter.NombreExemplairesDisponibles--;
+                    Emprunt v_emprunt = new Emprunt(v_mediaAEmprunter, p_nomEmprunteur);
+                    listEmprunts.Add(v_emprunt);
+                    Console.WriteLine("Média emprunté avec succès : " + v_mediaAEmprunter.Titre);
                 }
                 else
                 {
-                    Console.WriteLine("Aucun exemplaire disponible pour le média : " + mediaAEmprunter.Titre);
+                    Console.WriteLine("Aucun exemplaire disponible" +
+                                      " pour le média : " + v_mediaAEmprunter.Titre);
                 }
             }
             else
             {
-                Console.WriteLine("Média non trouvé avec le numéro de référence : " + numRef);
-            }
-        }
-
-        //Méthode pour emprunter un média par un utilisateur en fonction du numéro de référence du média
-        //et du nom de l'emprunteur
-        public void EmprunterMedia(int numRef, string nomEmprunteur)
-        {
-            Media mediaAEmprunter = this[numRef];
-            if (mediaAEmprunter != null)
-            {
-                if (mediaAEmprunter.NbExemDispo > 0)
-                {
-                    mediaAEmprunter.NbExemDispo--;
-                    Emprunt emprunt = new Emprunt(mediaAEmprunter, nomEmprunteur);
-                    v_listEmprunts.Add(emprunt);
-                    Console.WriteLine("Média emprunté avec succès : " + mediaAEmprunter.Titre);
-                }
-                else
-                {
-                    Console.WriteLine("Aucun exemplaire disponible pour le média : " + mediaAEmprunter.Titre);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Média non trouvé avec le numéro de référence : " + numRef);
+                Console.WriteLine("Média non trouvé avec le numéro de référence : " + p_numeroReference);
             }
         }
         
-        //Méthode pour retourner un média en fonction du numéro de référence du media et du nom de l'emprunteur
-        public void RetournerMedia(int numRef, string nomEmprunteur)
+        /// <summary>
+        /// Méthode pour retourner un média emprunté en fonction du numéro de référence du média et du nom de l'emprunteur
+        /// </summary>
+        /// <param name="p_numeroReference">Numéro de référence du média</param>
+        /// <param name="p_nomEmprunteur">Nom de l'emprunteur</param>
+        public void RetournerMedia(int p_numeroReference, string p_nomEmprunteur)
         {
-            Emprunt empruntARetourner = null;
-            foreach (var emprunt in v_listEmprunts)
+            Emprunt v_empruntARetourner = null;
+            foreach (Emprunt v_emprunt in listEmprunts)
             {
-                if (emprunt.v_media.NumRef == numRef && emprunt.v_nomEmprunteur == nomEmprunteur)
+                if (v_emprunt.Media.NumeroReference == p_numeroReference && 
+                    v_emprunt.NomEmprunteur == p_nomEmprunteur)
                 {
-                    empruntARetourner = emprunt;
-                    v_listEmprunts.Remove(emprunt);
+                    v_empruntARetourner = v_emprunt;
+                    listEmprunts.Remove(v_emprunt);
                     break;
                 }
             }
-            if (empruntARetourner != null)
+            if (v_empruntARetourner != null)
             {
-                empruntARetourner.v_media.NbExemDispo++;
-                Console.WriteLine("Média retourné avec succès : " + empruntARetourner.v_media.Titre);
+                v_empruntARetourner.Media.NombreExemplairesDisponibles++;
+                Console.WriteLine("Média retourné avec succès : "
+                                  + v_empruntARetourner.Media.Titre);
             }
             else
             {
-                Console.WriteLine("Média non trouvé avec le numéro de référence : " + numRef + " et l'emprunteur : " + nomEmprunteur);
+                Console.WriteLine("Média non trouvé avec " +
+                                  "le numéro de référence : " + p_numeroReference + 
+                                  " et l'emprunteur : " + p_nomEmprunteur);
             }
         }
         
-        //Méthode pour afficher les médias empruntés par un utilisateur en fonction de son nom
-        public void MediaEmprunteUtilisateur(string nomEmprunteur)
+        /// <summary>
+        /// Méthode pour afficher les médias empruntés par un utilisateur
+        /// </summary>
+        /// <param name="p_nomEmprunteur">Nom de l'emprunteur</param>
+        public void MediaEmprunteUtilisateur(string p_nomEmprunteur)
         {
-            int nbEmprunts = 0;
-            foreach (var emprunt in v_listEmprunts)
+            int v_nbEmprunts = 0;
+            foreach (Emprunt v_emprunt in listEmprunts)
             {
-                if (emprunt.v_nomEmprunteur == nomEmprunteur)
+                if (v_emprunt.NomEmprunteur == p_nomEmprunteur)
                 {
-                    nbEmprunts++;
-                    emprunt.v_media.AfficherInfos();
+                    v_nbEmprunts++;
+                    v_emprunt.Media.AfficherInfos();
                 }
             }
-            if (nbEmprunts == 0)
+            if (v_nbEmprunts == 0)
             {
-                Console.WriteLine("Aucun média emprunté par : " + nomEmprunteur);
+                Console.WriteLine("Aucun média emprunté par : "
+                                  + p_nomEmprunteur);
             }
 
         }
         
-        //Méthode pour afficher les statistiques de la bibliothèque
+        /// <summary>
+        /// Méthode pour afficher les statistiques de la bibliothèque
+        /// </summary>
         public void AfficherStatistiques()
         {
-            int nbTotalMedias = v_listMedia.Count;
-            int nbExemplairesDisponibles = 0;
-            int nbTotalExemplairesEmpruntes = v_listEmprunts.Count;
-            foreach (var media in v_listMedia)
+            int v_nbTotalMedias = listMedia.Count;
+            int v_nbExemplairesDisponibles = 0;
+            int v_nbTotalExemplairesEmpruntes = listEmprunts.Count;
+            foreach (Media media in listMedia)
             {
-                nbExemplairesDisponibles += media.NbExemDispo;
+                v_nbExemplairesDisponibles += media.NombreExemplairesDisponibles;
             }
  
-            Console.WriteLine("Nombre total de médias : " + nbTotalMedias);
-            Console.WriteLine("Nombre d'exemplaires disponibles : " + nbExemplairesDisponibles);
-            Console.WriteLine("Nombre total d'exemplaires empruntés : " + nbTotalExemplairesEmpruntes);
+            Console.WriteLine("Nombre total de médias : " + v_nbTotalMedias);
+            Console.WriteLine("Nombre d'exemplaires disponibles : " + v_nbExemplairesDisponibles);
+            Console.WriteLine("Nombre total d'exemplaires empruntés : " + v_nbTotalExemplairesEmpruntes);
 
         }
         
-        //Méthode pour sauvegarder l'état de la bibilothèque dans un fichier JSON 
-        public void SauvegarderBibliotheque(string cheminFichier)
+        /// <summary>
+        /// Méthode pour sauvegarder la bibliothèque dans un fichier JSON
+        /// </summary>
+        /// <param name="p_cheminFichier">Chemin du fichier</param>
+        public void SauvegarderBibliotheque(string p_cheminFichier)
         {
             var data = new
             {
-                Medias = v_listMedia,
-                Emprunts = v_listEmprunts
+                Medias = listMedia,
+                Emprunts = listEmprunts
             };
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(data, options);
-            File.WriteAllText(cheminFichier, jsonString);
+            var v_options = new JsonSerializerOptions { WriteIndented = true };
+            string v_jsonString = JsonSerializer.Serialize(data, v_options);
+            File.WriteAllText(p_cheminFichier, v_jsonString);
         }
 
-        //Méthode pour charger la bibliothèque depuis un fichier JSON
-        public static Library ChargerBibliotheque(string cheminFichier)
+        /// <summary>
+        /// Méthode pour charger une bibliothèque à partir d'un fichier JSON
+        /// </summary>
+        /// <param name="p_cheminFichier">Chemin du fichier</param>
+        /// <returns>Une bibliothèque</returns>
+        /// <exception cref="FileNotFoundException">Si le fichier n'est pas trouvé</exception>
+        public static Library ChargerBibliotheque(string p_cheminFichier)
         {
-            if (!File.Exists(cheminFichier))
+            if (!File.Exists(p_cheminFichier))
             {
                 throw new FileNotFoundException("Le fichier spécifié est introuvable.");
             }
 
-            string jsonString = File.ReadAllText(cheminFichier);
-            var data = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonString);
+            string v_jsonString = File.ReadAllText(p_cheminFichier);
+            var v_data = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(v_jsonString);
 
             Library bibliotheque = new Library();
-            bibliotheque.v_listMedia = JsonSerializer.Deserialize<List<Media>>(data["Medias"].GetRawText());
-            bibliotheque.v_listEmprunts = JsonSerializer.Deserialize<List<Emprunt>>(data["Emprunts"].GetRawText());
+            bibliotheque.listMedia = JsonSerializer.Deserialize<List<Media>>(v_data["Medias"].GetRawText());
+            bibliotheque.listEmprunts = JsonSerializer.Deserialize<List<Emprunt>>(v_data["Emprunts"].GetRawText());
 
             return bibliotheque;
+        }
+        
+        /// <summary>
+        /// Méthode pour ajouter un média à la bibliothèque
+        /// </summary>
+        /// <param name="p_library">Une bibliothèque</param>
+        /// <param name="p_media">Un Média</param>
+        /// <returns></returns>
+        public static Library operator +(Library p_library, Media p_media)
+        {
+            Media v_existingMedia = p_library.listMedia.FirstOrDefault(m => m.NumeroReference == p_media.NumeroReference);
+            if (v_existingMedia != null)
+            {
+                v_existingMedia.NombreExemplairesDisponibles += p_media.NombreExemplairesDisponibles;
+            }
+            else
+            {
+                p_library.listMedia.Add(p_media);
+            }
+            return p_library;
+        }
+        
+        /// <summary>
+        /// Méthode pour retirer un média de la bibliothèque
+        /// </summary>
+        /// <param name="p_library"></param>
+        /// <param name="p_media"></param>
+        /// <returns>Une bibliothèque</returns>
+        /// <exception cref="InvalidOperationException">Erreur si le
+        /// nombre d'exemplaires est insuffisant
+        /// dans la bibliothèque</exception>
+        public static Library operator -(Library p_library, Media p_media)
+        {
+            Media v_existingMedia = p_library.listMedia.FirstOrDefault(m => m.NumeroReference == p_media.NumeroReference);
+            if (v_existingMedia != null)
+            {
+                if (v_existingMedia.NombreExemplairesDisponibles >= p_media.NombreExemplairesDisponibles)
+                {
+                    v_existingMedia.NombreExemplairesDisponibles -= p_media.NombreExemplairesDisponibles;
+                    if (v_existingMedia.NombreExemplairesDisponibles == 0)
+                    {
+                        p_library.listMedia.Remove(v_existingMedia);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("Nombre d'exemplaires disponibles insuffisant pour retirer le média.");
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Le média n'existe pas dans la bibliothèque.");
+            }
+            return p_library;
         }
     }
 }

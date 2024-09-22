@@ -8,71 +8,49 @@ namespace Gestion_Biblio_Media
 {
     internal class DVD : Media
     {
-        double v_duree;
-        string v_realisateur;
+        private double duree;
+        private string realisateur;
 
-        public void AfficherInfos()
+        /// <summary>
+        /// Méthode pour afficher les informations du DVD
+        /// </summary>
+        public override void AfficherInfos()
         {
             base.AfficherInfos();
-            Console.WriteLine(v_duree);
-            Console.WriteLine(v_realisateur);
+            Console.WriteLine(duree);
+            Console.WriteLine(realisateur);
         }
-
-        public DVD(string v_titre, int v_numRef, int v_nbExemDispo, double v_duree, string v_realisateur) : base(v_titre, v_numRef, v_nbExemDispo)
-        {
-            this.v_duree = v_duree;
-            this.v_realisateur = v_realisateur;
-        }
-
+        
         /// <summary>
-        /// Surchage de l'opérateur + pour additionner deux DVDs
+        /// Constructeur de la classe DVD
         /// </summary>
-        /// <param name="DVD1">DVD de base</param>
-        /// <param name="DVD2">DVD a ajouter</param>
-        /// <returns>DVD de base modifié</returns>
-        /// <exception cref="InvalidOperationException">les titres des DVDs ne sont pas identiques</exception>
-        public static DVD operator +(DVD DVD1, DVD DVD2)
+        /// <param name="p_titre">Titre du DVD</param>
+        /// <param name="p_numeroReference">Numéro de référence du DVD</param>
+        /// <param name="p_nombreExemplairesDisponibles">Nombre d'exemlaires disponibles du DVD</param>
+        /// <param name="p_duree">Durée du DVD</param>
+        /// <param name="p_realisateur">Réalisateur du DVD</param>
+        public DVD(string p_titre, int p_numeroReference, int p_nombreExemplairesDisponibles, double p_duree, string p_realisateur) : base(p_titre, p_numeroReference, p_nombreExemplairesDisponibles)
         {
-            if (DVD1.Titre == DVD2.Titre)
-            {
-                // Appel de la surcharge de Media pour additionner le nombre d'exemplaires
-                Media resultatMedia = (Media)DVD1 + (Media)DVD2;
-
-                return new DVD(resultatMedia.Titre, resultatMedia.NumRef, resultatMedia.NbExemDispo, DVD1.v_duree, DVD1.v_realisateur);
-            }
-            else
-            {
-                throw new InvalidOperationException("Les titres des DVDs doivent être identiques pour les ajouter.");
-            }
+            duree = p_duree;
+            realisateur = p_realisateur;
         }
-
+        
         /// <summary>
-        /// Surchage de l'opérateur - pour soustraire deux DVDs
+        /// Getter pour obtenir la durée du DVD
         /// </summary>
-        /// <param name="DVD1">DVD de base</param>
-        /// <param name="DVD2">DVD a soustraire</param>
-        /// <returns>DVD de base modifié</returns>
-        /// <exception cref="InvalidOperationException">Nombre d'exemplaire incorrect et titre non similaire</exception>
-        public static DVD operator -(DVD DVD1, DVD DVD2)
+        public double Duree
         {
-            if (DVD1.Titre == DVD2.Titre)
-            {
-                if (DVD1.NbExemDispo < DVD2.NbExemDispo)
-                {
-                    throw new InvalidOperationException("Le nombre d'exemplaires du DVD à soustraire est supérieur au nombre d'exemplaires du DVD de base.");
-                }
-                else
-                {
-                    Media resultatMedia = (Media)DVD1 - (Media)DVD2;
-
-                    return new DVD(resultatMedia.Titre, resultatMedia.NumRef, resultatMedia.NbExemDispo, DVD1.v_duree, DVD1.v_realisateur);
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("Les titres des DVDs doivent être identiques pour les soustraire.");
-            }
+            get { return duree; }
         }
+        
+        /// <summary>
+        /// Getter pour obtenir le réalisateur du DVD
+        /// </summary>
+        public string Realisateur
+        {
+            get { return realisateur; }
+        }
+        
     }
 }
 

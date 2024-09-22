@@ -8,72 +8,50 @@ namespace Gestion_Biblio_Media
 {
     internal class Livre : Media
     {
-        string v_auteur;
-        string v_genre;
+        private string auteur;
+        private string genre;
 
-        public void AfficherInfos()
+        /// <summary>
+        /// Méthode pour afficher les informations du livre
+        /// </summary>
+        public override void AfficherInfos()
         {
             base.AfficherInfos();
-            Console.WriteLine(v_auteur);
-            Console.WriteLine(v_genre);
+            Console.WriteLine(auteur);
+            Console.WriteLine(genre);
         }
-
-        public Livre(string v_titre, int v_numRef, int v_nbExemDispo, string v_auteur, string v_genre) : base(v_titre, v_numRef, v_nbExemDispo)
-        {
     
-            this.v_auteur = v_auteur;
-            this.v_genre = v_genre;
-        }
-
-
         /// <summary>
-        /// Surchage de l'opérateur + pour additionner deux livres
+        /// Constructeur de la classe Livre
         /// </summary>
-        /// <param name="livre1">livre de base</param>
-        /// <param name="livre2">livre a ajouter</param>
-        /// <returns>livre de base modifié</returns>
-        /// <exception cref="InvalidOperationException">les titres des livres ne sont pas identiques</exception>
-        public static Livre operator +(Livre livre1, Livre livre2)
+        /// <param name="p_titre">Titre du Livre</param>
+        /// <param name="p_numeroReference">Numéro de référence du Livre</param>
+        /// <param name="p_nombreExemplairesDisponibles">Nombre d'exemplaires disponibles du Livre</param>
+        /// <param name="p_auteur">Auteur du Livre</param>
+        /// <param name="p_genre">Genre du Livre</param>
+        public Livre(string p_titre, int p_numeroReference,
+            int p_nombreExemplairesDisponibles, string p_auteur,
+            string p_genre) : base(p_titre, p_numeroReference,
+            p_nombreExemplairesDisponibles)
         {
-            if (livre1.Titre == livre2.Titre)
-            {
-                // Appel de la surcharge de Media pour additionner le nombre d'exemplaires
-                Media resultatMedia = (Media)livre1 + (Media)livre2;
-
-                return new Livre(resultatMedia.Titre, resultatMedia.NumRef, resultatMedia.NbExemDispo, livre1.v_auteur, livre1.v_genre);
-            }
-            else
-            {
-                throw new InvalidOperationException("Les titres des livres doivent être identiques pour les ajouter.");
-            }
+            auteur = p_auteur;
+            genre = p_genre;
         }
-
+        
         /// <summary>
-        /// Surchage de l'opérateur - pour soustraire deux livres
+        /// Getter pour obtenir l'auteur du Livre
         /// </summary>
-        /// <param name="livre1">Livre de base</param>
-        /// <param name="livre2">Livre a soustraire</param>
-        /// <returns>LIvre de base modifié</returns>
-        /// <exception cref="InvalidOperationException">Nombre d'exemplaire incorrect et titre non similaire</exception>
-        public static Livre operator -(Livre livre1, Livre livre2)
+        public string Auteur
         {
-            if (livre1.Titre == livre2.Titre)
-            {
-                if (livre1.NbExemDispo < livre2.NbExemDispo)
-                {
-                    throw new InvalidOperationException("Le nombre d'exemplaires du livre à soustraire est supérieur au nombre d'exemplaires du livre de base.");
-                }
-                else
-                {
-                    Media resultatMedia = (Media)livre1 - (Media)livre2;
-
-                    return new Livre(resultatMedia.Titre, resultatMedia.NumRef, resultatMedia.NbExemDispo, livre1.v_auteur, livre1.v_genre);
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("Les titres des livres doivent être identiques pour les soustraire.");
-            }
+            get { return auteur; }
+        }
+        
+        /// <summary>
+        /// Getter pour obtenir le genre du Livre
+        /// </summary>
+        public string Genre
+        {
+            get { return genre; }
         }
     }
 }

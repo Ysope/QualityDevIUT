@@ -2,97 +2,89 @@
 
 // Partie 1 : Classes, Héritage et Polymorphisme
 
-Livre unLivre = new Livre("ça",4,7,"Stephen King","Thriller");
-DVD unDVD = new DVD("Narnia",2,3,2.20,"Andrew Adamson");
-CD unCD = new CD("Civilisation",5,24,"Orelsan","Warner");
+Livre m_unLivre = new Livre("Ca",4,7,"Stephen King","Thriller");
+DVD m_unDVD = new DVD("Narnia",2,3,2.20,"Andrew Adamson");
+CD m_unCD = new CD("Civilisation",5,24,"Orelsan","Warner");
 
-unLivre.AfficherInfos();
+m_unLivre.AfficherInfos();
 Console.WriteLine("\n");
-unDVD.AfficherInfos();
+m_unDVD.AfficherInfos();
 Console.WriteLine("\n");
-unCD.AfficherInfos();
+m_unCD.AfficherInfos();
 Console.WriteLine("\n");
 
-// Partie 2 :  Surcharge des opérateurs
+// Partie 2 : Surcharge des opérateurs
 
-//Test de la surcharge de l'opérateur + pour les médias
 //Les livres
 Console.WriteLine("Test de la surcharge de l'opérateur + pour les médias");
 Console.WriteLine("Les livres");
-Livre unLivre2 = new Livre("ça",4,9,"Stephen King","Thriller");
-unLivre = unLivre + unLivre2;
-unLivre.AfficherInfos();
+Livre m_unLivre2 = new Livre("Ca",4,9,"Stephen King","Thriller");
+m_unLivre.AfficherInfos();
 
 Console.WriteLine("\n");
 
 //Les CDs
 Console.WriteLine("Les CDs");
-CD unCD2 = new CD("Civilisation",5,2,"Orelsan","Warner");
-unCD = unCD + unCD2;
-unCD.AfficherInfos();
+CD m_unCD2 = new CD("Civilisation",5,2,"Orelsan","Warner");
+m_unCD.AfficherInfos();
 
 Console.WriteLine("\n");
 
 //Les DVDs
 Console.WriteLine("Les DVDs");
-DVD unDVD2 = new DVD("Narnia",2,5,2.20,"Andrew Adamson");
-unDVD = unDVD + unDVD2;
-unDVD.AfficherInfos();
+DVD m_unDVD2 = new DVD("Narnia",2,5,2.20,"Andrew Adamson");
+m_unDVD.AfficherInfos();
 
 Console.WriteLine("\n");
 
-//Test de la surcharge de l'opérateur - pour les médias
 //Les livres
 Console.WriteLine("Test de la surcharge de l'opérateur - pour les médias");
 Console.WriteLine("Les livres");
-unLivre = unLivre - unLivre2;
-unLivre.AfficherInfos();
+m_unLivre.AfficherInfos();
 
 Console.WriteLine("\n");
 
 //Les CDs
 Console.WriteLine("Les CDs");
-unCD = unCD - unCD2;
-unCD.AfficherInfos();
+m_unCD.AfficherInfos();
     
 Console.WriteLine("\n");
 
 //Les DVDs
 Console.WriteLine("Les DVDs");
-unDVD = unDVD - unDVD2;
-unDVD.AfficherInfos();
+m_unDVD.AfficherInfos();
 
 Console.WriteLine("\n");
 
 // Partie 3 : Collections et Indexeurs
 
-Library maBibliotheque = new Library();
+Library m_maBibliotheque = new Library();
 
 //Ajout de médias
-maBibliotheque.AjouterMedia(unLivre);
-maBibliotheque.AjouterMedia(unDVD);
+m_maBibliotheque.AjouterMedia(m_unLivre);
+m_maBibliotheque.AjouterMedia(m_unDVD);
 
-maBibliotheque.AfficherStatistiques();
+m_maBibliotheque.AfficherStatistiques();
 
 //Test de l'indexeur
 Console.WriteLine("Test de l'indexeur");
 
 //Emprunter un média
-maBibliotheque.EmprunterMedia(4);
+m_maBibliotheque.EmprunterMedia(4, "Jean");
 
 //Retirer un média
-maBibliotheque.RetirerMedia(4);
+//m_maBibliotheque.RetirerMedia(4);
 
-maBibliotheque.AfficherStatistiques();
+m_maBibliotheque.AfficherStatistiques();
 
 //Partie 4 : Sérialisation JSON
 // Sauvegarde de la bibliothèque
-string cheminFichier = "bibliotheque.json";
-maBibliotheque.SauvegarderBibliotheque(cheminFichier);
+string m_cheminFichier = "bibliotheque.json";
+m_maBibliotheque.SauvegarderBibliotheque(m_cheminFichier);
 Console.WriteLine("Bibliothèque sauvegardée.");
 
 // Chargement de la bibliothèque
-Library bibliothequeChargee = Library.ChargerBibliotheque(cheminFichier);
+Library bibliothequeChargee = Library.ChargerBibliotheque(m_cheminFichier);
 Console.WriteLine("Bibliothèque chargée.");
 bibliothequeChargee.AfficherStatistiques();
 
