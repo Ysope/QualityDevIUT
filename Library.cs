@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
 
 namespace Gestion_Biblio_Media
 {
@@ -175,6 +177,26 @@ namespace Gestion_Biblio_Media
             Console.WriteLine("Nombre d'exemplaires disponibles : " + nbExemplairesDisponibles);
             Console.WriteLine("Nombre total d'exemplaires empruntés : " + nbTotalExemplairesEmpruntes);
 
+        }
+        
+        //Méthode pour sauvegarder l'état de la bibilothèque dans un fichier JSON 
+        public void SauvegarderBibliotheque(string cheminFichier)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(this, options);
+            File.WriteAllText(cheminFichier, jsonString);
+        }
+
+        //Méthode pour charger la bibliothèque depuis un fichier JSON
+        public static Library ChargerBibliotheque(string cheminFichier)
+        {
+            if (!File.Exists(cheminFichier))
+            {
+                throw new FileNotFoundException("Le fichier spécifié est introuvable.");
+            }
+
+            string jsonString = File.ReadAllText(cheminFichier);
+            return JsonSerializer.Deserialize<Library>(jsonString);
         }
     }
 }

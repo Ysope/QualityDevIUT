@@ -72,7 +72,7 @@ Library maBibliotheque = new Library();
 maBibliotheque.AjouterMedia(unLivre);
 maBibliotheque.AjouterMedia(unDVD);
 
-maBibliotheque.AfficherTousLesMedias();
+maBibliotheque.AfficherStatistiques();
 
 //Test de l'indexeur
 Console.WriteLine("Test de l'indexeur");
@@ -83,8 +83,18 @@ maBibliotheque.EmprunterMedia(4);
 //Retirer un média
 maBibliotheque.RetirerMedia(4);
 
-maBibliotheque.AfficherTousLesMedias();
+maBibliotheque.AfficherStatistiques();
 
+//Partie 4 : Sérialisation JSON
+// Sauvegarde de la bibliothèque
+string cheminFichier = "bibliotheque.json";
+maBibliotheque.SauvegarderBibliotheque(cheminFichier);
+Console.WriteLine("Bibliothèque sauvegardée.");
+
+// Chargement de la bibliothèque
+Library bibliothequeChargee = Library.ChargerBibliotheque(cheminFichier);
+Console.WriteLine("Bibliothèque chargée.");
+bibliothequeChargee.AfficherStatistiques();
 
 
 
