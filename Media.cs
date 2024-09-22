@@ -20,11 +20,11 @@ namespace Gestion_Biblio_Media
 
         }
 
-        public Media(string v_titre, int v_numRef, int v_nbExemDispo)
+        public Media(string titre, int numRef, int nbExemDispo)
         {
-            this.v_titre = v_titre;
-            this.v_numRef = v_numRef;
-            this.v_nbExemDispo = v_nbExemDispo;
+            v_titre = titre;
+            v_numRef = numRef;
+            v_nbExemDispo = nbExemDispo;
         }
 
         /// <summary>

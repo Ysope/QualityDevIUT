@@ -182,8 +182,13 @@ namespace Gestion_Biblio_Media
         //Méthode pour sauvegarder l'état de la bibilothèque dans un fichier JSON 
         public void SauvegarderBibliotheque(string cheminFichier)
         {
+            var data = new
+            {
+                Medias = v_listMedia,
+                Emprunts = v_listEmprunts
+            };
             var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(this, options);
+            string jsonString = JsonSerializer.Serialize(data, options);
             File.WriteAllText(cheminFichier, jsonString);
         }
 
@@ -196,7 +201,13 @@ namespace Gestion_Biblio_Media
             }
 
             string jsonString = File.ReadAllText(cheminFichier);
-            return JsonSerializer.Deserialize<Library>(jsonString);
+            var data = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonString);
+
+            Library bibliotheque = new Library();
+            bibliotheque.v_listMedia = JsonSerializer.Deserialize<List<Media>>(data["Medias"].GetRawText());
+            bibliotheque.v_listEmprunts = JsonSerializer.Deserialize<List<Emprunt>>(data["Emprunts"].GetRawText());
+
+            return bibliotheque;
         }
     }
 }
