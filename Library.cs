@@ -74,7 +74,7 @@ namespace Gestion_Biblio_Media
         public void EmprunterMedia(int p_numeroReference, string p_nomEmprunteur)
         {
             Media v_mediaAEmprunter = this[p_numeroReference];
-            if (v_mediaAEmprunter != null)
+            try
             {
                 if (v_mediaAEmprunter.NombreExemplairesDisponibles > 0)
                 {
@@ -85,13 +85,12 @@ namespace Gestion_Biblio_Media
                 }
                 else
                 {
-                    Console.WriteLine("Aucun exemplaire disponible" +
-                                      " pour le média : " + v_mediaAEmprunter.Titre);
+                    throw new Exception("Nombre d'exemplaires disponibles insuffisant pour emprunter le média.");
                 }
             }
-            else
+            catch
             {
-                Console.WriteLine("Média non trouvé avec le numéro de référence : " + p_numeroReference);
+                throw new NullReferenceException("Le média n'existe pas dans la bibliothèque.");
             }
         }
         
@@ -113,17 +112,15 @@ namespace Gestion_Biblio_Media
                     break;
                 }
             }
-            if (v_empruntARetourner != null)
+            try
             {
                 v_empruntARetourner.Media.NombreExemplairesDisponibles++;
                 Console.WriteLine("Média retourné avec succès : "
                                   + v_empruntARetourner.Media.Titre);
             }
-            else
+            catch
             {
-                Console.WriteLine("Média non trouvé avec " +
-                                  "le numéro de référence : " + p_numeroReference + 
-                                  " et l'emprunteur : " + p_nomEmprunteur);
+                throw new NullReferenceException("Le média n'existe pas dans la bibliothèque.");
             }
         }
         

@@ -30,12 +30,33 @@ m_maBibliotheque.RetirerMedia(4);
 Console.WriteLine("--------------------");
 
 //Emprunter un média
-m_maBibliotheque.EmprunterMedia(2, "Jean");
-m_maBibliotheque.EmprunterMedia(5, "Jean");
+try
+{
+    m_maBibliotheque.EmprunterMedia(2, "Jean");
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+try
+{
+    m_maBibliotheque.EmprunterMedia(5, "Jean");
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+}
 Console.WriteLine("--------------------");
 
 //Retourner un média
-m_maBibliotheque.RetournerMedia(2, "Jean");
+try
+{
+    m_maBibliotheque.RetournerMedia(2, "Jean");
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+}
 Console.WriteLine("--------------------");
 
 //Rechercher un média
