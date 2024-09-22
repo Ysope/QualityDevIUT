@@ -17,8 +17,7 @@ namespace Gestion_Biblio_Media
         public override void AfficherInfos()
         {
             base.AfficherInfos();
-            Console.WriteLine(duree);
-            Console.WriteLine(realisateur);
+            Console.WriteLine($"Durée: {duree}, Réalisateur: {realisateur}");
         }
         
         /// <summary>

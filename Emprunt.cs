@@ -8,8 +8,8 @@ namespace Gestion_Biblio_Media
 {
     internal class Emprunt
     {   
-        private Media media;
-        private string nomEmprunteur;
+        private Media mediaEmprunte;
+        private string nomEmprunteurMedia;
         
         /// <summary>
         /// Constructeur de la classe Emprunt, nommage différent pour désérialisation
@@ -18,8 +18,8 @@ namespace Gestion_Biblio_Media
         /// <param name="nomEmprunteur">Nom de l'emprunteur</param>
         public Emprunt(Media media, String nomEmprunteur)
         {
-            media = media;
-            nomEmprunteur = nomEmprunteur;
+            mediaEmprunte = media;
+            nomEmprunteurMedia = nomEmprunteur;
         }
         
         /// <summary>
@@ -27,8 +27,8 @@ namespace Gestion_Biblio_Media
         /// </summary>
         public void AfficherEmprunt()
         {
-            Console.WriteLine("Emprunté par : " + nomEmprunteur);
-            media.AfficherInfos();
+            Console.WriteLine("Emprunté par : " + nomEmprunteurMedia);
+            mediaEmprunte.AfficherInfos();
         }
         
         /// <summary>
@@ -36,24 +36,24 @@ namespace Gestion_Biblio_Media
         /// </summary>
         public void SupprimerEmprunt()
         {
-            media = null;
-            nomEmprunteur = null;
+            mediaEmprunte = null;
+            nomEmprunteurMedia = null;
         }
         
         /// <summary>
         /// Getter et setter pour obtenir le média emprunté
         /// </summary>
         public Media Media {
-            get { return media; }
-            set { media = value; }
+            get { return mediaEmprunte; }
+            set { mediaEmprunte = value; }
         }
         
         /// <summary>
         /// Getter et setter pour obtenir le nom de l'emprunteur
         /// </summary>
         public string NomEmprunteur { 
-            get { return nomEmprunteur; }
-            set { nomEmprunteur = value; }
+            get { return nomEmprunteurMedia; }
+            set { nomEmprunteurMedia = value; }
         }
     }
 }

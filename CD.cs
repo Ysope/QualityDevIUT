@@ -17,8 +17,7 @@ namespace Gestion_Biblio_Media
         public override void AfficherInfos()
         {
             base.AfficherInfos();
-            Console.WriteLine(artiste);
-            Console.WriteLine(edition);
+            Console.WriteLine($"Artiste: {artiste}, Edition: {edition}");
         }
 
         /// <summary>

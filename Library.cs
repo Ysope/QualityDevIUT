@@ -104,7 +104,7 @@ namespace Gestion_Biblio_Media
         {
             Emprunt v_empruntARetourner = null;
             foreach (Emprunt v_emprunt in listEmprunts)
-            {
+            {   
                 if (v_emprunt.Media.NumeroReference == p_numeroReference && 
                     v_emprunt.NomEmprunteur == p_nomEmprunteur)
                 {
@@ -135,7 +135,8 @@ namespace Gestion_Biblio_Media
         {
             int v_nbEmprunts = 0;
             foreach (Emprunt v_emprunt in listEmprunts)
-            {
+            {   
+                Console.WriteLine("Emprunté par : " + v_emprunt.NomEmprunteur);
                 if (v_emprunt.NomEmprunteur == p_nomEmprunteur)
                 {
                     v_nbEmprunts++;
@@ -206,6 +207,17 @@ namespace Gestion_Biblio_Media
             bibliotheque.listEmprunts = JsonSerializer.Deserialize<List<Emprunt>>(v_data["Emprunts"].GetRawText());
 
             return bibliotheque;
+        }
+        
+        public void RechercherMediaTitre(string p_recherche)
+        {
+            foreach (Media v_media in listMedia)
+            {
+                if (v_media.Titre.Contains(p_recherche))
+                {
+                    v_media.AfficherInfos();
+                }
+            }
         }
         
         /// <summary>

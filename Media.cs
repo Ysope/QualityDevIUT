@@ -16,13 +16,11 @@ namespace Gestion_Biblio_Media
         /// <summary>
         /// Méthode pour afficher les informations du média
         /// </summary>
-        public virtual void AfficherInfos (){
-            Console.WriteLine(titre);
-            Console.WriteLine(numeroReference);
-            Console.WriteLine(nombreExemplairesDisponibles);
-
+        public virtual void AfficherInfos()
+        {
+            Console.WriteLine($"{titre}, {numeroReference}, {nombreExemplairesDisponibles}");
         }
-        
+                
         /// <summary>
         /// Constructeur de la classe Média, nommage différent pour désérialisation
         /// </summary>

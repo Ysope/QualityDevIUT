@@ -17,8 +17,7 @@ namespace Gestion_Biblio_Media
         public override void AfficherInfos()
         {
             base.AfficherInfos();
-            Console.WriteLine(auteur);
-            Console.WriteLine(genre);
+            Console.WriteLine($"Auteur: {auteur}, Genre: {genre}");
         }
     
         /// <summary>
